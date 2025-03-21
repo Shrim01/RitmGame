@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Center
+  - Logic
+  - Shield
   layers:
   - Default
   - TransparentFX
