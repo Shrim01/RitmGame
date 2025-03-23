@@ -73,4 +73,5 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 #Data for testing game
-/Assets/GamePlay/[Rr]esources
+/Assets/GamePlay/[Rr]esources/*.mp3
+/Assets/GamePlay/[Rr]esources/*.mp3.meta
