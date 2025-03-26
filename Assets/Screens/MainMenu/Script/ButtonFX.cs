@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ButtonFX : MonoBehaviour
+public class ButtonFXX: MonoBehaviour
 {
     public AudioSource myFX;
     public AudioClip hoverFX;

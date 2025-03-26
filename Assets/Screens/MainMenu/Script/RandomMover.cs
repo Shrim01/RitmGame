@@ -22,15 +22,24 @@ public class RandomMover : MonoBehaviour
         // Вращаем объект
         transform.Rotate(Vector3.forward, rotationSpeed * Time.deltaTime);
 
-        // Проверяем столкновение с границами экрана
-        if (transform.position.x < -Screen.width / 2 || transform.position.x > Screen.width / 2 ||
-            transform.position.y < -Screen.height / 2 || transform.position.y > Screen.height / 2)
+        // Получаем размеры канваса
+        RectTransform canvasRectTransform = GetComponentInParent<Canvas>().GetComponent<RectTransform>();
+        Vector2 canvasSize = canvasRectTransform.sizeDelta;
+
+        // Получаем размеры объекта
+        RectTransform rectTransform = GetComponent<RectTransform>();
+        float objectWidth = rectTransform.rect.width / 2;
+        float objectHeight = rectTransform.rect.height / 2;
+
+        // Проверяем столкновение с границами канваса
+        if (transform.localPosition.x < -canvasSize.x / 2 + objectWidth || transform.localPosition.x > canvasSize.x / 2 - objectWidth ||
+            transform.localPosition.y < -canvasSize.y / 2 + objectHeight || transform.localPosition.y > canvasSize.y / 2 - objectHeight)
         {
             // Отталкиваем в случайном направлении
             direction = Random.insideUnitCircle.normalized;
-            // Перемещаем объект немного внутрь экрана, чтобы избежать застревания
-            transform.position = new Vector2(Mathf.Clamp(transform.position.x, -Screen.width / 2 + 1, Screen.width / 2 - 1),
-                                              Mathf.Clamp(transform.position.y, -Screen.height / 2 + 1, Screen.height / 2 - 1));
+            // Перемещаем объект немного внутрь канваса, чтобы избежать застревания
+            transform.localPosition = new Vector2(Mathf.Clamp(transform.localPosition.x, -canvasSize.x / 2 + objectWidth, canvasSize.x / 2 - objectWidth),
+                                                   Mathf.Clamp(transform.localPosition.y, -canvasSize.y / 2 + objectHeight, canvasSize.y / 2 - objectHeight));
         }
     }
 }
