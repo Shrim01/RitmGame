@@ -1,23 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using JetBrains.Annotations;
 using UnityEngine;
 
-public class SpawnNote : MonoBehaviour
+namespace GamePlay.Script
 {
-    public GameObject note;
-    public float timeSpawn;
-    private float time;
-
-
-    void Update()
+    public class SpawnNote : MonoBehaviour
     {
-        time+=Time.deltaTime;
-        if (time>timeSpawn)
+        public GameObject note;
+        private float timeSpawn = 0.5f;
+        private float time;
+
+
+        void Update()
         {
-            Instantiate(note);
-            time = 0;
+            time+=Time.deltaTime;
+            if (time>timeSpawn)
+            {
+                Instantiate(note);
+                time = 0;
+            }
         }
     }
 }

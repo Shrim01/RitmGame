@@ -5,8 +5,8 @@ namespace GamePlay.Script
     public class NoteScript : MonoBehaviour
     {
         public Rigidbody2D myRigidbody2D;
-        private float speed = 2;
-        private float timeLive = 3;
+        private float speed = 6;
+        private float timeLive = 4;
         private float time;
         private float scale = 0;
         private float positionScale;

@@ -4,7 +4,7 @@ namespace GamePlay.Script
 {
     public class ShieldScript : MonoBehaviour
     {
-        public bool touch;
+        private bool touch;
         private GameObject touchObject;
         public LogicScript logic;
 
