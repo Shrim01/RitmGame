@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace GamePlay.Script
 {
     public static class Date
@@ -10,6 +8,7 @@ namespace GamePlay.Script
         public static int[] Records = new int[5];
         public static int PreviousScore;
         public static int MaxScore;
+        public static int Combo;
     }
     public class SupportClass<T>
     {

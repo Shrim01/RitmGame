@@ -20,23 +20,29 @@ namespace GamePlay.Script
                 score += 200 + combo++;
             else
             {
-                maxCombo = combo;
+                if (combo > maxCombo)
+                    maxCombo = combo;
                 combo = 0;
                 score += 100;
             }
+
             UpdateScore();
         }
 
         public void EndSong()
         {
-            //Тут будет переключение на экран с результатами
-            if (score>Date.Records[4])
+            if (score > Date.Records[4])
             {
                 Date.Records[4] = score;
                 Array.Sort(Date.Records, (a, b) => b.CompareTo(a));
             }
+
             Date.PreviousScore = score;
+            Date.Combo = maxCombo;
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Result");
+            SaveRecords();
         }
+
         public void UpdateProgressBar(float value)
         {
             progressBar.GetComponent<Slider>().value = value;
@@ -47,16 +53,11 @@ namespace GamePlay.Script
             scoreText.text = score.ToString("0000000");
             comboText.text = "X" + combo;
         }
+
         private void SaveRecords()
         {
             var listJson = JsonUtility.ToJson(new SupportClass<int>(Date.Records), true);
             PlayerPrefs.SetString("SavedRecords", listJson);
-        }
-
-        private void LoadRecords()
-        {
-            var listJson = PlayerPrefs.GetString("SavedRecords");
-            Date.Records = JsonUtility.FromJson<SupportClass<int>>(listJson).Item;
         }
     }
 }

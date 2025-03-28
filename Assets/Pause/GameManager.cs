@@ -2,20 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
-using TMPro; // Не забудь добавить этот using для TextMesh Pro
+using TMPro; // пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ using пїЅпїЅпїЅ TextMesh Pro
 
 public class PauseMenu : MonoBehaviour
 {
-    public GameObject pauseMenuPanel; // Панель меню паузы
-    public TMP_Text pauseText; // Текст "Esc - Pause" с использованием TextMesh Pro
+    public GameObject pauseMenuPanel; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+    public TMP_Text pauseText; // пїЅпїЅпїЅпїЅпїЅ "Esc - Pause" пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ TextMesh Pro
     private bool isPaused = false;
-    public AudioSource musicSource; // Ссылка на AudioSource для музыки
+    public AudioSource musicSource; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ AudioSource пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
     void Start()
     {
-        pauseMenuPanel.SetActive(false); // Скрываем меню паузы в начале
-        pauseText.gameObject.SetActive(true); // Показываем текст
-        Invoke("HidePauseText", 4f); // Скрываем текст через 4 секунды
+        pauseMenuPanel.SetActive(false); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        pauseText.gameObject.SetActive(true); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+        Invoke("HidePauseText", 4f);
     }
 
     void Update()
@@ -36,35 +36,35 @@ public class PauseMenu : MonoBehaviour
     void PauseGame()
     {
         isPaused = true;
-        Time.timeScale = 0; // Останавливаем время
-        musicSource.Pause(); // Приостанавливаем музыку
-        pauseMenuPanel.SetActive(true); // Показываем меню паузы
+        Time.timeScale = 0; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+        musicSource.Pause(); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        pauseMenuPanel.SetActive(true); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     }
 
     void ResumeGame()
     {
         isPaused = false;
-        Time.timeScale = 1; // Возвращаем время
-        musicSource.UnPause(); // Возобновляем музыку
-        pauseMenuPanel.SetActive(false); // Скрываем меню паузы
+        Time.timeScale = 1; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+        musicSource.UnPause(); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        pauseMenuPanel.SetActive(false); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     }
 
     void HidePauseText()
     {
-        pauseText.gameObject.SetActive(false); // Скрываем текст
+        pauseText.gameObject.SetActive(false); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     }
 
     public void RestartGame()
     {
-        Time.timeScale = 1; // Возвращаем время
-        // Здесь добавьте логику для перезапуска уровня
+        Time.timeScale = 1; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+        // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
 
     public void ExitGame()
     {
-        // Здесь добавьте логику для выхода в главное меню
-        // Например, загрузка главного меню
-        UnityEngine.SceneManagement.SceneManager.LoadScene("ChooseMap"); // Замените на имя вашей сцены главного меню
+        // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+        UnityEngine.SceneManagement.SceneManager.LoadScene("ChooseMap"); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
     }
 }

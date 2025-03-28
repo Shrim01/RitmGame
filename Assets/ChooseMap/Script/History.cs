@@ -1,30 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using GamePlay.Script;
 
 public class TableSpawner : MonoBehaviour
 {
-    public GameObject tablePrefab; // Префаб table
-    public int numberOfTables = 5; // Количество префабов
-    public float spacing = 10f; // Расстояние между префабами
+    public GameObject tablePrefab;
+    public int numberOfTables;
+    public float spacing = 10f;
 
     void Start()
     {
+        LoadRecords();
+        for (var i = 0; i < Date.Records.Length; i++)
+            if (Date.Records[i] == 0)
+            {
+                numberOfTables = i;
+                break;
+            }
+
         SpawnTables();
     }
 
-    void SpawnTables()
+    private void SpawnTables()
     {
-        // Получаем RectTransform текущего объекта
-        RectTransform parentRectTransform = GetComponent<RectTransform>();
+        var parentRectTransform = GetComponent<RectTransform>();
 
-        for (int i = 0; i < numberOfTables; i++)
+        for (var i = 0; i < numberOfTables; i++)
         {
-            // Рассчитываем позицию для каждого префаба
-            Vector3 position = new Vector3(0, -i * spacing, 0); // Обратите внимание на знак минус, чтобы разместить вниз
-            GameObject tableInstance = Instantiate(tablePrefab, parentRectTransform);
-            tableInstance.GetComponent<RectTransform>().anchoredPosition = position; // Устанавливаем позицию
+            var position = new Vector3(0, -i * spacing, 0);
+            var table = Instantiate(tablePrefab, parentRectTransform);
+            table.GetComponent<RectTransform>().anchoredPosition = position;
+            table.GetComponent<tableScript>().UpdateScore(i);
         }
+    }
+
+    private void LoadRecords()
+    {
+        var listJson = PlayerPrefs.GetString("SavedRecords");
+        Date.Records = JsonUtility.FromJson<SupportClass<int>>(listJson).Item;
     }
 }
