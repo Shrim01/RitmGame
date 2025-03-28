@@ -6,6 +6,6 @@ namespace GamePlay.Script
     {
         public static float RadiusCircle = 10.0f;
         public static float VolumeSong = 0.1f;
-        public static AudioClip Song;
+        public static int Difficult = 0;
     }
 }
