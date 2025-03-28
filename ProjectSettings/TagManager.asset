@@ -7,7 +7,6 @@ TagManager:
   - Center
   - Logic
   - Shield
-  - Spawn
   layers:
   - Default
   - TransparentFX
