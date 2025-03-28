@@ -33,6 +33,7 @@ namespace GamePlay.Script
             songLength = audio.clip.length;
             audio.Play();
             audio.time = timeStart;
+            Date.MaxScore = timingList.Length * 200 + timingList.Length / 2 * timingList.Length;
         }
 
         void Update()
@@ -43,6 +44,11 @@ namespace GamePlay.Script
             {
                 Instantiate(note);
                 index++;
+            }
+
+            if (songPosition > songLength)
+            {
+                logic.EndSong();
             }
         }
 

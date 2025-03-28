@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,6 +27,16 @@ namespace GamePlay.Script
             UpdateScore();
         }
 
+        public void EndSong()
+        {
+            //Тут будет переключение на экран с результатами
+            if (score>Date.Records[4])
+            {
+                Date.Records[4] = score;
+                Array.Sort(Date.Records, (a, b) => b.CompareTo(a));
+            }
+            Date.PreviousScore = score;
+        }
         public void UpdateProgressBar(float value)
         {
             progressBar.GetComponent<Slider>().value = value;
@@ -36,5 +47,6 @@ namespace GamePlay.Script
             scoreText.text = score.ToString("0000000");
             comboText.text = "X" + combo;
         }
+
     }
 }
