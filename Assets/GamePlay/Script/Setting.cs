@@ -11,4 +11,13 @@ namespace GamePlay.Script
         public static int PreviousScore;
         public static int MaxScore;
     }
+    public class SupportClass<T>
+    {
+        public T[] Item;
+
+        public SupportClass(T[] item)
+        {
+            Item = item;
+        }
+    }
 }

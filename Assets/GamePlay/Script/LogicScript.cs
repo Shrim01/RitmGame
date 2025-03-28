@@ -47,6 +47,16 @@ namespace GamePlay.Script
             scoreText.text = score.ToString("0000000");
             comboText.text = "X" + combo;
         }
+        private void SaveRecords()
+        {
+            var listJson = JsonUtility.ToJson(new SupportClass<int>(Date.Records), true);
+            PlayerPrefs.SetString("SavedRecords", listJson);
+        }
 
+        private void LoadRecords()
+        {
+            var listJson = PlayerPrefs.GetString("SavedRecords");
+            Date.Records = JsonUtility.FromJson<SupportClass<int>>(listJson).Item;
+        }
     }
 }
