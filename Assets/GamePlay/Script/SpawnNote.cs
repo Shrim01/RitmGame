@@ -35,8 +35,8 @@ namespace GamePlay.Script
         void Update()
         {
             logic.UpdateProgressBar((audio.time - timeStart) / (audio.clip.length - timeStart));
-            songPosition = (float)(AudioSettings.dspTime - dspSongTime - 10.0f / 6.0f);
-            if (index < timingList.Length && songPosition > timingList[index])
+            songPosition = (float)(AudioSettings.dspTime - dspSongTime);
+            if (index < timingList.Length && songPosition > timingList[index] - 10.0f / 6.0f)
             {
                 Instantiate(note);
                 index++;
