@@ -5,22 +5,22 @@ using UnityEngine.UI;
 
 public class CardSelector : MonoBehaviour
 {
-    public GameObject cardPrefab; // ГЏГ°ГҐГґГ ГЎ ГЄГ Г°ГІГ»
-    public Transform content; // ГЉГ®Г­ГІГҐГ©Г­ГҐГ° Г¤Г«Гї ГЄГ Г°ГІ
-    public string[] cardNames; // ГЌГ Г§ГўГ Г­ГЁГї ГЄГ Г°ГІ
-    public ScrollRect scrollRect; // Г‘Г±Г»Г«ГЄГ  Г­Г  ScrollRect
+    public GameObject cardPrefab; // Префаб карты
+    public Transform content; // Контейнер для карт
+    public string[] cardNames; // Названия карт
+    public ScrollRect scrollRect; // Ссылка на ScrollRect
 
     void LoadCards()
     {
         if (cardPrefab == null)
         {
-            Debug.LogError("Card Prefab Г­ГҐ Г­Г Г§Г­Г Г·ГҐГ­!");
+            Debug.LogError("Card Prefab не назначен!");
             return;
         }
 
         if (content == null)
         {
-            Debug.LogError("Content Г­ГҐ Г­Г Г§Г­Г Г·ГҐГ­!");
+            Debug.LogError("Content не назначен!");
             return;
         }
 
@@ -28,24 +28,24 @@ public class CardSelector : MonoBehaviour
         {
             GameObject card = Instantiate(cardPrefab, content);
 
-            // ГЏГ®ГЇГ°Г®ГЎГіГҐГ¬ ГЇГ®Г«ГіГ·ГЁГІГј ГЄГ®Г¬ГЇГ®Г­ГҐГ­ГІ Text
+            // Попробуем получить компонент Text
             Text cardText = card.GetComponentInChildren<Text>();
             if (cardText != null)
             {
-                cardText.text = cardName; // Г“Г±ГІГ Г­Г ГўГ«ГЁГўГ ГҐГ¬ Г­Г Г§ГўГ Г­ГЁГҐ ГЄГ Г°ГІГ», ГҐГ±Г«ГЁ ГЄГ®Г¬ГЇГ®Г­ГҐГ­ГІ Г­Г Г©Г¤ГҐГ­
+                cardText.text = cardName; // Устанавливаем название карты, если компонент найден
             }
             else
             {
-                Debug.LogWarning("ГЉГ®Г¬ГЇГ®Г­ГҐГ­ГІ Text Г­ГҐ Г­Г Г©Г¤ГҐГ­ Г­Г  ГЄГ Г°ГІГ®Г·ГЄГҐ: " + cardName);
+                Debug.LogWarning("Компонент Text не найден на карточке: " + cardName);
             }
 
             Button button = card.GetComponent<Button>();
             if (button != null)
             {
-                button.onClick.AddListener(() => OnCardSelected(cardName)); // Г„Г®ГЎГ ГўГ«ГїГҐГ¬ Г®ГЎГ°Г ГЎГ®ГІГ·ГЁГЄ Г­Г Г¦Г ГІГЁГї
+                button.onClick.AddListener(() => OnCardSelected(cardName)); // Добавляем обработчик нажатия
             }
 
-            // Г„Г®ГЎГ ГўГ«ГїГҐГ¬ Г®ГЎГ°Г ГЎГ®ГІГ·ГЁГЄГЁ Г±Г®ГЎГ»ГІГЁГ© Г¤Г«Гї Г­Г ГўГҐГ¤ГҐГ­ГЁГї Г¬Г»ГёГЁ
+            // Добавляем обработчики событий для наведения мыши
             EventTrigger eventTrigger = card.AddComponent<EventTrigger>();
             EventTrigger.Entry entryPointerEnter = new EventTrigger.Entry();
             entryPointerEnter.eventID = EventTriggerType.PointerEnter;
@@ -58,17 +58,17 @@ public class CardSelector : MonoBehaviour
             eventTrigger.triggers.Add(entryPointerExit);
         }
 
-        // Г“Г±ГІГ Г­Г ГўГ«ГЁГўГ ГҐГ¬ ГЇГ®Г§ГЁГ¶ГЁГѕ Scroll View, Г·ГІГ®ГЎГ» ГЇГҐГ°ГўГ»Г© ГЅГ«ГҐГ¬ГҐГ­ГІ ГЎГ»Г« Гў Г¶ГҐГ­ГІГ°ГҐ
+        // Устанавливаем позицию Scroll View, чтобы первый элемент был в центре
         CenterScrollView();
     }
 
     void Update()
     {
-        // ГЏГ°Г®ГўГҐГ°ГїГҐГ¬, ГЇГ°Г®ГЄГ°ГіГ·ГЁГўГ ГҐГІГ±Гї Г«ГЁ ГЄГ®Г«ГҐГ±ГЁГЄГ® Г¬Г»ГёГЁ
+        // Проверяем, прокручивается ли колесико мыши
         float scrollInput = Input.GetAxis("Mouse ScrollWheel");
         if (scrollInput != 0)
         {
-            // ГЏГ°Г®ГЄГ°ГіГ·ГЁГўГ ГҐГ¬ ScrollRect Гў Г§Г ГўГЁГ±ГЁГ¬Г®Г±ГІГЁ Г®ГІ ГўГўГ®Г¤Г 
+            // Прокручиваем ScrollRect в зависимости от ввода
             scrollRect.verticalNormalizedPosition += scrollInput;
         }
     }
@@ -77,39 +77,42 @@ public class CardSelector : MonoBehaviour
     {
         if (content.childCount > 0)
         {
-            // ГЏГ®Г«ГіГ·Г ГҐГ¬ RectTransform ГЇГҐГ°ГўГ®ГЈГ® ГЅГ«ГҐГ¬ГҐГ­ГІГ 
+            // Получаем RectTransform первого элемента
             RectTransform firstCardRect = content.GetChild(0).GetComponent<RectTransform>();
 
-            // ГЏГ®Г«ГіГ·Г ГҐГ¬ ГўГ»Г±Г®ГІГі ГЄГ®Г­ГІГҐГ­ГІГ  ГЁ ГўГ»Г±Г®ГІГі ГЄГ Г°ГІГ®Г·ГЄГЁ
+            // Получаем высоту контента и высоту карточки
             float contentHeight = content.GetComponent<RectTransform>().rect.height;
             float cardHeight = firstCardRect.rect.height;
 
-            // Г‚Г»Г·ГЁГ±Г«ГїГҐГ¬ Г¶ГҐГ«ГҐГўГіГѕ ГЇГ®Г§ГЁГ¶ГЁГѕ Г¤Г«Гї Г¶ГҐГ­ГІГ°ГЁГ°Г®ГўГ Г­ГЁГї
+            // Вычисляем целевую позицию для центрирования
             float targetPosition = (cardHeight / 2) - (contentHeight / 2);
             float scrollPosition = firstCardRect.anchoredPosition.y + targetPosition;
 
-            // Г“Г±ГІГ Г­Г ГўГ«ГЁГўГ ГҐГ¬ ГЇГ®Г§ГЁГ¶ГЁГѕ ГЇГ°Г®ГЄГ°ГіГІГЄГЁ
+            // Устанавливаем позицию прокрутки
             scrollRect.content.anchoredPosition = new Vector2(scrollRect.content.anchoredPosition.x, scrollPosition);
         }
     }
 
-    void OnCardSelected(string cardName) => Debug.Log("Г‚Г»ГЎГ°Г Г­Г  ГЄГ Г°ГІГ : " + cardName);
+    void OnCardSelected(string cardName)
+    {
+        Debug.Log("Выбрана карта: " + cardName);
+    }
 
     void OnPointerEnter(GameObject card)
     {
-        // Г“ГўГҐГ«ГЁГ·ГЁГўГ ГҐГ¬ Г°Г Г§Г¬ГҐГ° ГЄГ Г°ГІГ®Г·ГЄГЁ
+        // Увеличиваем размер карточки
         card.transform.localScale = new Vector3(1.7f, 1.7f, 1f);
 
-        // Г‘Г¬ГҐГ№Г ГҐГ¬ ГЄГ Г°ГІГ®Г·ГЄГі ГўГ«ГҐГўГ® Г­Г  10 ГҐГ¤ГЁГ­ГЁГ¶ (Г¬Г®Г¦ГҐГІГҐ ГЁГ§Г¬ГҐГ­ГЁГІГј ГЅГІГ® Г§Г­Г Г·ГҐГ­ГЁГҐ ГЇГ® Г±ГўГ®ГҐГ¬Гі ГіГ±Г¬Г®ГІГ°ГҐГ­ГЁГѕ)
+        // Смещаем карточку влево на 10 единиц (можете изменить это значение по своему усмотрению)
         card.transform.localPosition += new Vector3(-180f, 0f, 0f);
     }
 
     void OnPointerExit(GameObject card)
     {
-        // Г‚Г®Г§ГўГ°Г Г№Г ГҐГ¬ Г°Г Г§Г¬ГҐГ° ГЄГ Г°ГІГ®Г·ГЄГЁ
+        // Возвращаем размер карточки
         card.transform.localScale = new Vector3(1f, 1f, 1f);
 
-        // Г‚Г®Г§ГўГ°Г Г№Г ГҐГ¬ ГЄГ Г°ГІГ®Г·ГЄГі Г­Г  ГЁГ±ГµГ®Г¤Г­ГіГѕ ГЇГ®Г§ГЁГ¶ГЁГѕ
+        // Возвращаем карточку на исходную позицию
         card.transform.localPosition -= new Vector3(-180f, 0f, 0f);
     }
 }
