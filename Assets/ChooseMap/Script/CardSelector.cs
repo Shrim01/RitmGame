@@ -62,6 +62,17 @@ public class CardSelector : MonoBehaviour
         CenterScrollView();
     }
 
+    void Update()
+    {
+        // Проверяем, прокручивается ли колесико мыши
+        float scrollInput = Input.GetAxis("Mouse ScrollWheel");
+        if (scrollInput != 0)
+        {
+            // Прокручиваем ScrollRect в зависимости от ввода
+            scrollRect.verticalNormalizedPosition += scrollInput;
+        }
+    }
+
     void CenterScrollView()
     {
         if (content.childCount > 0)
