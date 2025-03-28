@@ -93,10 +93,7 @@ public class CardSelector : MonoBehaviour
         }
     }
 
-    void OnCardSelected(string cardName)
-    {
-        Debug.Log("Âûáðàíà êàðòà: " + cardName);
-    }
+    void OnCardSelected(string cardName) => Debug.Log("Âûáðàíà êàðòà: " + cardName);
 
     void OnPointerEnter(GameObject card)
     {
