@@ -44,7 +44,7 @@ namespace GamePlay.Script
             if (index < timingList.Length && songPosition > timingList[index] - 10.0f / 6.0f)
             {
                 Instantiate(note);
-                index+=2;
+                index++;
             }
 
             if (songPosition > songLength)
