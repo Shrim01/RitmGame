@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,11 +20,27 @@ namespace GamePlay.Script
                 score += 200 + combo++;
             else
             {
-                maxCombo = combo;
+                if (combo > maxCombo)
+                    maxCombo = combo;
                 combo = 0;
                 score += 100;
             }
+
             UpdateScore();
+        }
+
+        public void EndSong()
+        {
+            if (score > Date.Records[4])
+            {
+                Date.Records[4] = score;
+                Array.Sort(Date.Records, (a, b) => b.CompareTo(a));
+            }
+
+            Date.PreviousScore = score;
+            Date.Combo = maxCombo;
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Result");
+            SaveRecords();
         }
 
         public void UpdateProgressBar(float value)
@@ -35,6 +52,12 @@ namespace GamePlay.Script
         {
             scoreText.text = score.ToString("0000000");
             comboText.text = "X" + combo;
+        }
+
+        private void SaveRecords()
+        {
+            var listJson = JsonUtility.ToJson(new SupportClass<int>(Date.Records), true);
+            PlayerPrefs.SetString("SavedRecords", listJson);
         }
     }
 }
