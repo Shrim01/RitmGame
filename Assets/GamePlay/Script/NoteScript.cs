@@ -28,7 +28,10 @@ namespace GamePlay.Script
             time += Time.deltaTime;
             UpdateScale();
             if (time > timeLive)
-            Destroy(gameObject);
+            {
+                LogicScript.Instance.ShowMissEffect();
+                Destroy(gameObject);
+            }
         }
 
         private void UpdateScale()
