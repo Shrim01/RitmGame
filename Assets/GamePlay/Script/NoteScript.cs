@@ -6,7 +6,7 @@ namespace GamePlay.Script
     {
         public Rigidbody2D myRigidbody2D;
         private float speed = 6;
-        private float timeLive = 4;
+        private float timeLive = 2;
         private float time;
         private float scale = 0;
         private float positionScale;
@@ -28,7 +28,7 @@ namespace GamePlay.Script
             time += Time.deltaTime;
             UpdateScale();
             if (time > timeLive)
-                Destroy(gameObject);
+            Destroy(gameObject);
         }
 
         private void UpdateScale()

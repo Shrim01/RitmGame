@@ -17,15 +17,14 @@ namespace GamePlay.Script
         public void AddScore(float distanse)
         {
             if (distanse < 0.7f)
-                score += 200 + combo++;
+                score += 100 + combo++;
             else
             {
                 if (combo > maxCombo)
                     maxCombo = combo;
-                combo = 0;
-                score += 100;
+                combo = 0;  
+                score += 50;
             }
-
             UpdateScore();
         }
 
