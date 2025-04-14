@@ -11,6 +11,11 @@ namespace GamePlay.Script
     {
         public static LogicScript Instance;
 
+        // Добавь эти поля
+        [Header("Audio")]
+        [SerializeField] private AudioSource audioSource;
+        [SerializeField] private AudioClip missSound;
+
         [Header("UI Elements")]
         public TMP_Text scoreText;
         public TMP_Text comboText;
@@ -54,6 +59,12 @@ namespace GamePlay.Script
         public void ShowMissEffect()
         {
             ReplaceEffect(missXPrefab);
+
+            // Воспроизводим звук
+            if (audioSource != null && missSound != null)
+            {
+                audioSource.PlayOneShot(missSound);
+            }
         }
 
         private void ShowScoreEffect(GameObject prefab)
