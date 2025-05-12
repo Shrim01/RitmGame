@@ -11,10 +11,7 @@ namespace GamePlay.Script
     {
         public static LogicScript Instance;
         
-<<<<<<< Updated upstream
         [Header("Audio")]
-=======
->>>>>>> Stashed changes
         [SerializeField] private AudioSource audioSource;
         [SerializeField] private AudioClip missSound;
 
@@ -61,12 +58,8 @@ namespace GamePlay.Script
         public void ShowMissEffect()
         {
             ReplaceEffect(missXPrefab);
-<<<<<<< Updated upstream
 
             // ������������� ����
-=======
-            
->>>>>>> Stashed changes
             if (audioSource != null && missSound != null)
             {
                 audioSource.PlayOneShot(missSound);
@@ -90,25 +83,19 @@ namespace GamePlay.Script
             // ������� ����� ������
             var center = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 10));
             currentEffect = Instantiate(newEffectPrefab, center, Quaternion.identity);
-<<<<<<< Updated upstream
 
             // �������������� �������� ����� 0.5 ��� (������� ����� �� �������)
             StartCoroutine(DestroyAfterDelay(currentEffect, 0.5f));
         }
 
         // �������� ��� �������� �������
-=======
-            
-            StartCoroutine(DestroyAfterDelay(currentEffect, 0.5f));
-        }
-
-
->>>>>>> Stashed changes
         private IEnumerator DestroyAfterDelay(GameObject effect, float delay)
         {
             yield return new WaitForSeconds(delay);
             if (effect != null)
+            {
                 Destroy(effect);
+            }
         }
 
         private void CreateStars()
