@@ -9,9 +9,8 @@ public class StarEffect : MonoBehaviour
 
     void Start()
     {
-        // Случайное направление и поворот
         randomDirection = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0).normalized;
-        transform.localScale = Vector3.zero; // Начальный размер
+        transform.localScale = Vector3.zero;
         StartCoroutine(Animate());
     }
 
@@ -21,10 +20,8 @@ public class StarEffect : MonoBehaviour
 
         while (timer < lifeTime)
         {
-            // Масштаб
             transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, timer / lifeTime);
-
-            // Движение и вращение
+            
             transform.position += randomDirection * 2f * Time.deltaTime;
             transform.Rotate(0, 0, 180 * Time.deltaTime);
 
