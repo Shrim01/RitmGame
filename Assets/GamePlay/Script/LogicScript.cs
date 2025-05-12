@@ -10,8 +10,7 @@ namespace GamePlay.Script
     public class LogicScript : MonoBehaviour
     {
         public static LogicScript Instance;
-
-        // Добавь эти поля
+        
         [Header("Audio")]
         [SerializeField] private AudioSource audioSource;
         [SerializeField] private AudioClip missSound;
@@ -27,7 +26,7 @@ namespace GamePlay.Script
         public GameObject missXPrefab;
         public List<GameObject> starPrefabs = new List<GameObject>();
 
-        private GameObject currentEffect; // Храним текущий эффект
+        private GameObject currentEffect;
         private int score = 0;
         private int combo = 0;
         private int maxCombo = 0;
@@ -60,7 +59,7 @@ namespace GamePlay.Script
         {
             ReplaceEffect(missXPrefab);
 
-            // Воспроизводим звук
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
             if (audioSource != null && missSound != null)
             {
                 audioSource.PlayOneShot(missSound);
@@ -72,24 +71,24 @@ namespace GamePlay.Script
             ReplaceEffect(prefab);
         }
 
-        // Универсальный метод для замены эффектов
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         private void ReplaceEffect(GameObject newEffectPrefab)
         {
-            // Удаляем предыдущий эффект, если он есть
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ
             if (currentEffect != null)
             {
                 Destroy(currentEffect);
             }
 
-            // Создаем новый эффект
-            Vector3 center = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 10));
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+            var center = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 10));
             currentEffect = Instantiate(newEffectPrefab, center, Quaternion.identity);
 
-            // Автоматическое удаление через 0.5 сек (настрой время по желанию)
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ 0.5 пїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
             StartCoroutine(DestroyAfterDelay(currentEffect, 0.5f));
         }
 
-        // Корутина для удаления эффекта
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         private IEnumerator DestroyAfterDelay(GameObject effect, float delay)
         {
             yield return new WaitForSeconds(delay);
