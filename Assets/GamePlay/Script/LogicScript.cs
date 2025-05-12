@@ -10,9 +10,9 @@ namespace GamePlay.Script
         public TMP_Text scoreText;
         public TMP_Text comboText;
         public GameObject progressBar;
-        private int score = 0;
-        private int combo = 0;
-        private int maxCombo = 0;
+        private int score;
+        private int combo;
+        private int maxCombo;
 
         public void AddScore(float distanse)
         {
