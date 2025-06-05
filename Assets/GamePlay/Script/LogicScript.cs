@@ -29,6 +29,11 @@ namespace GamePlay.Script
             UpdateScore();
         }
 
+        public void Miss()
+        {
+            
+        }
+
         public void EndSong()
         {
             if (combo > maxCombo)

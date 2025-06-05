@@ -4,10 +4,12 @@ namespace GamePlay.Script
 {
     public class SpawnNote : MonoBehaviour
     {
-        public AudioSource audio;
+        public new AudioSource audio;
         public LogicScript logic;
         public GameObject note;
-        private float timeSpawn = 0.5f;
+        public GameObject longNote;
+        public GameObject spinner;
+        private float timeSpawn = 5f;
         private float time;
         private float timeStart;
 
@@ -40,16 +42,21 @@ namespace GamePlay.Script
         void Update()
         {
             logic.UpdateProgressBar((audio.time - timeStart) / (audio.clip.length - timeStart));
-            songPosition = (float)(AudioSettings.dspTime - dspSongTime);
-            if (index < timingList.Length && songPosition > timingList[index] - 10.0f / 6.0f)
-            {
-                Instantiate(note);
-                index++;
-            }
+            // songPosition = (float)(AudioSettings.dspTime - dspSongTime);
+            // if (index < timingList.Length && songPosition > timingList[index] - 10.0f / 6.0f)
+            // {
+                // Instantiate(note);
+                // index++;
+            // }
 
-            if (songPosition > songLength)
+            // if (songPosition > songLength)
+                // logic.EndSong();
+
+            time += Time.deltaTime;
+            if (time > timeSpawn)
             {
-                logic.EndSong();
+                time = 0;
+                Instantiate(note);
             }
         }
 

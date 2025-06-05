@@ -7,7 +7,7 @@ namespace GamePlay.Script
         public static int Difficult = 2;
         public static int[] Records = new int[5];
         public static int PreviousScore;
-        public static int MaxScore;
+        public static int MaxScore = 0;
         public static int Combo;
     }
     public class SupportClass<T>
