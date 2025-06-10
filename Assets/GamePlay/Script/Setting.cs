@@ -19,4 +19,17 @@ namespace GamePlay.Script
             Item = item;
         }
     }
+    public class NoteRecord<T>
+    {
+        public T[] Note;
+        public string[] LongNote;
+        public string[] Spinner;
+
+        public NoteRecord(T[] note, string[] longNote, string[] spinner)
+        {
+            Note = note;
+            LongNote = longNote;
+            Spinner = spinner;
+        }
+    }
 }

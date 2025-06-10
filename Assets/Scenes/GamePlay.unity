@@ -738,8 +738,8 @@ MonoBehaviour:
   logic: {fileID: 0}
   note: {fileID: 536074676711781926, guid: 8b120a2b40da58e4192c02ba58a9ccb6, type: 3}
   longNote: {fileID: 2730601175559787454, guid: edaa978bd2a86d54fa5ca34d8a772360, type: 3}
-  spinner: {fileID: 0}
-  timingList: []
+  spinner: {fileID: 536074676711781926, guid: 05ab4d0c429a9ba49a194d7dfae4e9eb, type: 3}
+  noteTiming: []
 --- !u!82 &548281149
 AudioSource:
   m_ObjectHideFlags: 0
