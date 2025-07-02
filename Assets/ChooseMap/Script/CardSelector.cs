@@ -2,50 +2,75 @@ using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ
 
 public class CardSelector : MonoBehaviour
 {
-    public GameObject cardPrefab; // Префаб карты
-    public Transform content; // Контейнер для карт
-    public string[] cardNames; // Названия карт
-    public ScrollRect scrollRect; // Ссылка на ScrollRect
+    public Dictionary<string, string> nameVideo = new Dictionary<string, string>()
+    {
+        { "Card", "Phone1" },
+        { "Card (1)", "Phone2" },
+        { "Card (2)", "Phone3" },
+        { "Card (3)", "Phone4" }
+    };
+
+    public GameObject cardPrefab; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+    public Transform content; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+    public string[] cardNames; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+    public ScrollRect scrollRect; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ ScrollRect
+
+    [Header("Background Settings")] public GameObject mapBackground; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (Map)
+    public VideoPlayer videoBackground; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ VideoPlayer пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ Video
+
+    private int _firstCardIndex = 0; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ) пїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ
+
+
+    void Start()
+    {
+        if (videoBackground != null)
+        {
+            videoBackground.Stop();
+            videoBackground.gameObject.SetActive(false);
+        }
+    }
 
     void LoadCards()
     {
         if (cardPrefab == null)
         {
-            Debug.LogError("Card Prefab не назначен!");
+            Debug.LogError("Card Prefab пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!");
             return;
         }
 
         if (content == null)
         {
-            Debug.LogError("Content не назначен!");
+            Debug.LogError("Content пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!");
             return;
         }
 
+        var i = 0;
         foreach (var cardName in cardNames)
         {
             GameObject card = Instantiate(cardPrefab, content);
 
-            // Попробуем получить компонент Text
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Text
             Text cardText = card.GetComponentInChildren<Text>();
             if (cardText != null)
             {
-                cardText.text = cardName; // Устанавливаем название карты, если компонент найден
+                cardText.text = cardName; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             }
             else
             {
-                Debug.LogWarning("Компонент Text не найден на карточке: " + cardName);
+                Debug.LogWarning("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Text пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " + cardName);
             }
 
             Button button = card.GetComponent<Button>();
             if (button != null)
             {
-                button.onClick.AddListener(() => OnCardSelected(cardName)); // Добавляем обработчик нажатия
+                button.onClick.AddListener(() => OnCardSelected(cardName)); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             }
 
-            // Добавляем обработчики событий для наведения мыши
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
             EventTrigger eventTrigger = card.AddComponent<EventTrigger>();
             EventTrigger.Entry entryPointerEnter = new EventTrigger.Entry();
             entryPointerEnter.eventID = EventTriggerType.PointerEnter;
@@ -56,19 +81,19 @@ public class CardSelector : MonoBehaviour
             entryPointerExit.eventID = EventTriggerType.PointerExit;
             entryPointerExit.callback.AddListener((data) => { OnPointerExit(card); });
             eventTrigger.triggers.Add(entryPointerExit);
+            i++;
         }
 
-        // Устанавливаем позицию Scroll View, чтобы первый элемент был в центре
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ Scroll View, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         CenterScrollView();
     }
 
     void Update()
     {
-        // Проверяем, прокручивается ли колесико мыши
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
         float scrollInput = Input.GetAxis("Mouse ScrollWheel");
         if (scrollInput != 0)
         {
-            // Прокручиваем ScrollRect в зависимости от ввода
             scrollRect.verticalNormalizedPosition += scrollInput;
         }
     }
@@ -77,42 +102,66 @@ public class CardSelector : MonoBehaviour
     {
         if (content.childCount > 0)
         {
-            // Получаем RectTransform первого элемента
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ RectTransform пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             RectTransform firstCardRect = content.GetChild(0).GetComponent<RectTransform>();
 
-            // Получаем высоту контента и высоту карточки
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             float contentHeight = content.GetComponent<RectTransform>().rect.height;
             float cardHeight = firstCardRect.rect.height;
 
-            // Вычисляем целевую позицию для центрирования
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             float targetPosition = (cardHeight / 2) - (contentHeight / 2);
             float scrollPosition = firstCardRect.anchoredPosition.y + targetPosition;
 
-            // Устанавливаем позицию прокрутки
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             scrollRect.content.anchoredPosition = new Vector2(scrollRect.content.anchoredPosition.x, scrollPosition);
         }
     }
 
     void OnCardSelected(string cardName)
     {
-        Debug.Log("Выбрана карта: " + cardName);
+        Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ: " + cardName);
     }
 
     void OnPointerEnter(GameObject card)
     {
-        // Увеличиваем размер карточки
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         card.transform.localScale = new Vector3(1.7f, 1.7f, 1f);
-
-        // Смещаем карточку влево на 10 единиц (можете изменить это значение по своему усмотрению)
         card.transform.localPosition += new Vector3(-180f, 0f, 0f);
+
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        int cardIndex = card.transform.GetSiblingIndex();
+        if (cardIndex == _firstCardIndex)
+        {
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            // if (mapBackground != null) mapBackground.SetActive(false);
+            // if (videoBackground != null)
+            // {
+                // videoBackground.gameObject.SetActive(true);
+                // videoBackground.Play();
+                // videoBackground.clip = Resources.Load<VideoClip>(nameVideo[gameObject.name]);
+            // }
+        }
     }
 
     void OnPointerExit(GameObject card)
     {
-        // Возвращаем размер карточки
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         card.transform.localScale = new Vector3(1f, 1f, 1f);
-
-        // Возвращаем карточку на исходную позицию
         card.transform.localPosition -= new Vector3(-180f, 0f, 0f);
+
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        int cardIndex = card.transform.GetSiblingIndex();
+        if (cardIndex == _firstCardIndex)
+        {
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            // if (videoBackground != null)
+            {
+                // videoBackground.Stop();
+                // videoBackground.gameObject.SetActive(false);
+            }
+
+            // if (mapBackground != null) mapBackground.SetActive(true);
+        }
     }
 }

@@ -7,6 +7,14 @@ TagManager:
   - Center
   - Logic
   - Shield
+  - MenuMusic
+  - SpawnNote
+  - LongNote
+  - Note
+  - Spinner
+  - First
+  - Anim
+  - Video
   layers:
   - Default
   - TransparentFX

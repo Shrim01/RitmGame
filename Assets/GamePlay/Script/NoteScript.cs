@@ -11,13 +11,15 @@ namespace GamePlay.Script
         private float scale = 0;
         private float positionScale;
         private float targetScale = 1;
+        private LogicScript logic;
 
         void Start()
         {
+            logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
             positionScale = Date.RadiusCircle / 2;
             transform.localScale = new Vector3(scale, scale, scale);
             var rotation = GameObject.FindGameObjectWithTag("Center").transform.rotation.eulerAngles.z;
-            var rotate = Random.Range(-1, 1);
+            var rotate = Random.Range(-60, 60);
             var rot = (rotation + rotate) / 180 * Mathf.PI;
             myRigidbody2D.velocity = new Vector2(Mathf.Cos(rot) * speed,
                 Mathf.Sin(rot) * speed);
@@ -29,7 +31,7 @@ namespace GamePlay.Script
             UpdateScale();
             if (time > timeLive)
             {
-                LogicScript.Instance.ShowMissEffect();
+                logic.ShowMissEffect();
                 Destroy(gameObject);
             }
         }
