@@ -1,17 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using GamePlay.Script;
 
 public class tableScript : MonoBehaviour
 {
-    public TMP_Text score;
-    public TMP_Text percent;
+    public TMP_Text scoreText;
+    public TMP_Text percentText;
+    public GameObject activeElements;
 
-    public void UpdateScore(int num)
+    public void SetRecord(int index, bool isActive)
     {
-        score.text = Date.Records[num].ToString("Score: 0000000");
-        percent.text = (Date.Records[num] * 1.0f / Date.MaxScore).ToString("#0.##%");
+        // Активируем/деактивируем элементы
+        activeElements.SetActive(isActive);
+
+        if (!isActive) return;
+
+        // Обновляем только активные записи
+        scoreText.text = "Score: " + Date.Records[index].ToString("0000000");
+
+        if (Date.MaxScore > 0)
+        {
+            float percentage = (float)Date.Records[index] / Date.MaxScore;
+            percentText.text = percentage.ToString("#0.##%");
+        }
+        else
+        {
+            percentText.text = "0%";
+        }
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 namespace GamePlay.Script
 {
@@ -28,6 +29,8 @@ namespace GamePlay.Script
         private int combo = 0;
         private int maxCombo = 0;
         private bool visualEffectsEnabled = true; // ���� ��������� ���������� �������� (���������)
+        // Добавляем константу для максимального количества записей
+        private const int maxRecords = 5;
 
         private void Awake()
         {
@@ -141,21 +144,42 @@ namespace GamePlay.Script
                 star.AddComponent<StarEffect>();
             }
         }
-        
+
         public void EndSong()
         {
             if (combo > maxCombo)
                 maxCombo = combo;
-            if (score > Date.Records[4])
-            {
-                Date.Records[4] = score;
-                Array.Sort(Date.Records, (a, b) => b.CompareTo(a));
-            }
+
+            LoadRecords();
+            UpdateRecords(score);
 
             Date.PreviousScore = score;
             Date.Combo = maxCombo;
             SaveRecords();
             SceneManager.LoadScene("Result");
+        }
+
+        private void UpdateRecords(int newScore)
+        {
+            // Создаем временный список для всех записей
+            var recordsList = Date.Records.ToList();
+
+            // Добавляем новый результат
+            recordsList.Add(newScore);
+
+            // Сортируем по убыванию и берем топ-5
+            recordsList = recordsList
+                .OrderByDescending(r => r)
+                .Take(maxRecords)
+                .ToList();
+
+            // Дополняем нулями если нужно
+            while (recordsList.Count < maxRecords)
+            {
+                recordsList.Add(0);
+            }
+
+            Date.Records = recordsList.ToArray();
         }
 
         // �������� ����� ���������� ��������-���� (��� ���������)
@@ -181,10 +205,24 @@ namespace GamePlay.Script
                 comboText.text = "X" + combo;
         }
 
+        private void LoadRecords()
+        {
+            var listJson = PlayerPrefs.GetString("SavedRecords");
+            if (!string.IsNullOrEmpty(listJson))
+            {
+                Date.Records = JsonUtility.FromJson<SupportClass<int>>(listJson).Item;
+            }
+            else
+            {
+                Date.Records = new int[maxRecords];
+            }
+        }
+
         private void SaveRecords()
         {
             var listJson = JsonUtility.ToJson(new SupportClass<int>(Date.Records), true);
             PlayerPrefs.SetString("SavedRecords", listJson);
+            PlayerPrefs.Save();
         }
     }
 }

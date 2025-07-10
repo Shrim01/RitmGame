@@ -91,8 +91,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24c5cff980eaa4b4091e2c8683bfdb8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: {fileID: 8608584204046913053}
-  percent: {fileID: 495086097056845634}
+  scoreText: {fileID: 8608584204046913053}
+  percentText: {fileID: 495086097056845634}
+  activeElements: {fileID: 577284704943111877}
 --- !u!1 &4930837859903751550
 GameObject:
   m_ObjectHideFlags: 0
